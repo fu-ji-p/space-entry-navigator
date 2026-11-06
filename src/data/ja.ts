@@ -74,9 +74,9 @@ export const ja = {
     spaceOnlyValue: '宇宙でしか実現できない価値があるか',
     spaceOnlyValueHint: '宇宙が目的ではなく手段になる課題を持っている',
     benefitChartTitle: '期待できる便益',
-    benefitChartHint: '目標類型での相対的な期待度を 3 段階で示します。動機に合う項目を強調しています。',
+    benefitChartHint: '目標類型での相対的な期待度を ★ の 3 段階で示します。動機に合う項目を強調しています。',
     barrierChartTitle: '越えるべき障壁',
-    barrierChartHint: '目標類型での相対的な高さを 3 段階で示します。意思決定の障壁（W3）だけは性質が異なります。',
+    barrierChartHint: '目標類型での相対的な高さを ▲ の 3 段階で示します。意思決定の障壁（W3）だけは性質が異なります。',
     barrierResourceNote: '資源で下げられる障壁',
     barrierDistinctNote: '性質が異なる障壁（資源では越えきれない）',
     insightsTitle: '考察',
@@ -142,6 +142,10 @@ export const ja = {
     low: '低',
     mid: '中',
     high: '高',
+  },
+  rating: {
+    benefitLegend: '★が多いほど期待度が高い',
+    barrierLegend: '▲が多いほど壁が高い',
   },
   layers: {
     firm: '企業',
@@ -224,8 +228,6 @@ export const ja = {
   },
   chart: {
     ariaBar: (name: string, tagline: string, band: string) => `${name}（${tagline}）: ${band}`,
-    tableCaptionBenefit: '便益の段階一覧',
-    tableCaptionBarrier: '障壁の段階一覧',
     colId: 'ID',
     colName: '項目',
     colLayer: '層',

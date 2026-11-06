@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { BAND_THRESHOLDS } from '../src/data/bands';
-import { atLeast, bandLevel, toBand } from '../src/logic/band';
+import { atLeast, bandLevel, ratingGlyphs, toBand } from '../src/logic/band';
 import { computeScores, DEFAULT_INPUT } from '../src/logic/score';
 
 describe('段階（低・中・高）', () => {
@@ -20,6 +20,13 @@ describe('段階（低・中・高）', () => {
     expect(atLeast(50, 'mid')).toBe(true);
     expect(atLeast(50, 'high')).toBe(false);
     expect(atLeast(90, 'low')).toBe(true);
+  });
+
+  it('記号列: 便益は★、障壁は▲', () => {
+    expect(ratingGlyphs('low', 'benefit')).toBe('★☆☆');
+    expect(ratingGlyphs('mid', 'benefit')).toBe('★★☆');
+    expect(ratingGlyphs('high', 'barrier')).toBe('▲▲▲');
+    expect(ratingGlyphs('low', 'barrier')).toBe('▲△△');
   });
 
   it('関連度 1・2・3 が既定では 低・中・高 に対応する', () => {

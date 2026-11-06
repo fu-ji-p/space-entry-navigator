@@ -19,7 +19,8 @@ describe('report', () => {
     expect(md).toContain('学術論文の分類枠組み');
     expect(md).toContain('動機に合致');
     expect(md).toContain('数値的な根拠はありません');
-    expect(md).toMatch(/\| 高 \|/);
+    expect(md).toMatch(/\| ★★★ 高 \|/);
+    expect(md).toMatch(/\| ▲▲▲ 高 \|/);
     expect(md).not.toMatch(/\| \d+ \|/);
   });
 

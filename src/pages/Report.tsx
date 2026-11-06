@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { ATTRIBUTION_TEXT } from '../config/attribution';
 import InsightList from '../components/InsightList';
+import { Rating } from '../components/RatingList';
 import { Button, Disclaimer, LayerBadge } from '../components/ui';
 import { BARRIER_BY_ID } from '../data/barriers';
 import { BENEFIT_BY_ID } from '../data/benefits';
@@ -145,7 +146,10 @@ export default function Report({ input }: Props) {
                     <td className="py-1 pr-2">
                       <LayerBadge layer={b.layer} />
                     </td>
-                    <td className="py-1 text-right">{ja.bands[toBand(score)]}</td>
+                    <td className="py-1 text-right whitespace-nowrap">
+                      <Rating band={toBand(score)} kind="benefit" layer={b.layer} />{' '}
+                      <span className="font-semibold">{ja.bands[toBand(score)]}</span>
+                    </td>
                   </tr>
                 );
               })}
@@ -178,7 +182,10 @@ export default function Report({ input }: Props) {
                     <td className="py-1 pr-2">
                       <LayerBadge layer={w.layer} />
                     </td>
-                    <td className="py-1 text-right">{ja.bands[toBand(score)]}</td>
+                    <td className="py-1 text-right whitespace-nowrap">
+                      <Rating band={toBand(score)} kind="barrier" layer={w.layer} distinct={w.distinctNature} />{' '}
+                      <span className="font-semibold">{ja.bands[toBand(score)]}</span>
+                    </td>
                   </tr>
                 );
               })}

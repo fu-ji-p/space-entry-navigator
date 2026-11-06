@@ -4,7 +4,7 @@ import { BENEFITS, BENEFIT_BY_ID } from '../data/benefits';
 import { BARRIERS } from '../data/barriers';
 import { ja, SLIDER_KEYS } from '../data/ja';
 import { STAGE_BY_ID } from '../data/types';
-import { toBand } from './band';
+import { ratingGlyphs, toBand } from './band';
 import type { Insight } from './insights';
 import { motiveBenefitIds } from './score';
 
@@ -71,7 +71,7 @@ export function buildMarkdown(data: ReportData): string {
   for (const { id, score } of topBenefits(scores)) {
     const b = BENEFIT_BY_ID[id];
     const mark = highlighted.has(id) ? ` (${ja.simulate.motiveMatch})` : '';
-    lines.push(`| ${b.id} | 【${b.tagline}】${b.name}${mark} | ${ja.layers[b.layer]} | ${ja.bands[toBand(score)]} |`);
+    lines.push(`| ${b.id} | 【${b.tagline}】${b.name}${mark} | ${ja.layers[b.layer]} | ${ratingGlyphs(toBand(score), 'benefit')} ${ja.bands[toBand(score)]} |`);
   }
   lines.push('');
   lines.push(`## ${r.barriers}`);
@@ -81,7 +81,7 @@ export function buildMarkdown(data: ReportData): string {
   for (const { id, score } of barriersDesc(scores)) {
     const w = BARRIERS.find((x) => x.id === id)!;
     const mark = w.distinctNature ? ` (${r.distinctMark})` : '';
-    lines.push(`| ${w.id} | 【${w.tagline}】${w.name}${mark} | ${ja.layers[w.layer]} | ${ja.bands[toBand(score)]} |`);
+    lines.push(`| ${w.id} | 【${w.tagline}】${w.name}${mark} | ${ja.layers[w.layer]} | ${ratingGlyphs(toBand(score), 'barrier')} ${ja.bands[toBand(score)]} |`);
   }
   lines.push('');
   lines.push(r.bandNote);
