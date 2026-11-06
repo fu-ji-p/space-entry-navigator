@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { BARRIER_BY_ID } from '../data/barriers';
 import { BENEFIT_BY_ID } from '../data/benefits';
 import { ja } from '../data/ja';
-import type { BarrierId, BenefitId, FrameworkItem, StageDef, StageId } from '../data/schema';
+import type { Band, BarrierId, BenefitId, FrameworkItem, StageDef, StageId } from '../data/schema';
 import { STAGE_BY_ID } from '../data/types';
 import { Button, LayerBadge } from './ui';
 
@@ -23,7 +23,7 @@ export function refFromId(id: string): ItemRef | null {
 
 interface CardProps {
   item: FrameworkItem | StageDef;
-  score?: number;
+  band?: Band; // シミュレーターでの段階（便益=期待度、障壁=高さ）
   dimmed?: boolean;
   highlighted?: boolean;
   onOpen?: (ref: ItemRef) => void;
@@ -36,7 +36,7 @@ function isFramework(item: FrameworkItem | StageDef): item is FrameworkItem {
 }
 
 /** D/B/W 共通カード。探索画面では一覧表示、チャートからはダイアログ内で使う。 */
-export function ItemCard({ item, score, dimmed, highlighted, onRelated, compact }: CardProps) {
+export function ItemCard({ item, band, dimmed, highlighted, onRelated, compact }: CardProps) {
   const fw = isFramework(item) ? item : null;
   return (
     <article
@@ -55,9 +55,12 @@ export function ItemCard({ item, score, dimmed, highlighted, onRelated, compact 
             {ja.card.distinct}
           </span>
         )}
-        {score !== undefined && (
-          <span className="ml-auto text-sm font-semibold tabular-nums">
-            {ja.simulate.scoreLabel} {Math.round(score)}
+        {band !== undefined && fw && (
+          <span className="ml-auto text-sm font-semibold">
+            {fw.layer === 'cost' || fw.layer === 'tech' || fw.layer === 'decision'
+              ? ja.simulate.barrierBandLabel
+              : ja.simulate.benefitBandLabel}
+            : {ja.bands[band]}
           </span>
         )}
       </div>
@@ -113,12 +116,12 @@ export function ItemCard({ item, score, dimmed, highlighted, onRelated, compact 
 /** チャートの棒をクリックしたときに開く定義カードのダイアログ */
 export function ItemDialog({
   itemRef,
-  score,
+  band,
   onClose,
   onNavigate,
 }: {
   itemRef: ItemRef | null;
-  score?: number;
+  band?: Band;
   onClose: () => void;
   onNavigate: (ref: ItemRef) => void;
 }) {
@@ -163,7 +166,7 @@ export function ItemDialog({
             {ja.card.close}
           </button>
         </div>
-        <ItemCard item={item} score={score} onRelated={onNavigate} />
+        <ItemCard item={item} band={band} onRelated={onNavigate} />
         <div className="mt-3 text-right">
           <Button variant="secondary" onClick={onClose}>
             {ja.card.close}

@@ -3,6 +3,7 @@ import type { SimInput } from '../src/data/schema';
 import { INSIGHT_RULES, MAX_INSIGHTS } from '../src/data/insights';
 import { evaluateInsights } from '../src/logic/insights';
 import { computeScores, DEFAULT_INPUT } from '../src/logic/score';
+import { toBand } from '../src/logic/band';
 
 const ids = (input: SimInput) => evaluateInsights(input, computeScores(input)).map((i) => i.id);
 const allIds = (input: SimInput) =>
@@ -46,18 +47,18 @@ describe('考察ルール', () => {
     expect(result[0].id).toBe('unknown-high');
   });
 
-  it('unknown-high: W3 が 60 以上で発火', () => {
+  it('unknown-high: W3 が「高」で発火', () => {
     const input: SimInput = { ...DEFAULT_INPUT, target: 'D3', conviction: 1 };
-    expect(computeScores(input).barriers.W3).toBeGreaterThanOrEqual(60);
+    expect(toBand(computeScores(input).barriers.W3)).toBe('high');
     expect(allIds(input)).toContain('unknown-high');
     const calm: SimInput = { ...DEFAULT_INPUT, current: 'D2', target: 'D2', conviction: 5 };
-    expect(computeScores(calm).barriers.W3).toBeLessThan(60);
+    expect(toBand(computeScores(calm).barriers.W3)).not.toBe('high');
     expect(allIds(calm)).not.toContain('unknown-high');
   });
 
-  it('mission-driven: mission を含み W3 が 40 以上', () => {
+  it('mission-driven: mission を含み W3 が「中」以上', () => {
     const input: SimInput = { ...DEFAULT_INPUT, motives: ['mission'], conviction: 3 };
-    expect(computeScores(input).barriers.W3).toBeGreaterThanOrEqual(40);
+    expect(toBand(computeScores(input).barriers.W3)).not.toBe('low');
     expect(allIds(input)).toContain('mission-driven');
     expect(allIds({ ...input, motives: [] })).not.toContain('mission-driven');
   });
@@ -67,9 +68,9 @@ describe('考察ルール', () => {
     expect(allIds({ ...DEFAULT_INPUT, spaceOnlyValue: false })).not.toContain('space-only');
   });
 
-  it('scarcity: 公的支援なしで W1-1 が 60 以上', () => {
+  it('scarcity: 公的支援なしで W1-1 が「高」', () => {
     const input: SimInput = { ...DEFAULT_INPUT, target: 'D4', capital: 1, usePublicFunds: false };
-    expect(computeScores(input).barriers['W1-1']).toBeGreaterThanOrEqual(60);
+    expect(toBand(computeScores(input).barriers['W1-1'])).toBe('high');
     expect(allIds(input)).toContain('scarcity');
     expect(allIds({ ...input, usePublicFunds: true })).not.toContain('scarcity');
   });
@@ -79,9 +80,9 @@ describe('考察ルール', () => {
     expect(allIds({ ...DEFAULT_INPUT, usePublicFunds: false })).not.toContain('stepping-stone');
   });
 
-  it('tech-growth: W2-1 が 50 以上で tech または org', () => {
+  it('tech-growth: W2-1 が「中」以上で tech または org', () => {
     const input: SimInput = { ...DEFAULT_INPUT, target: 'D4', techFit: 1, spaceKnow: 1, motives: ['org'] };
-    expect(computeScores(input).barriers['W2-1']).toBeGreaterThanOrEqual(50);
+    expect(toBand(computeScores(input).barriers['W2-1'])).not.toBe('low');
     expect(allIds(input)).toContain('tech-growth');
     expect(allIds({ ...input, motives: ['profit'] })).not.toContain('tech-growth');
   });

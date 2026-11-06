@@ -5,8 +5,9 @@ import { ja } from '../data/ja';
 import { LAYERS } from '../data/layers';
 import type { BenefitId, SimInput, SimScores } from '../data/schema';
 import { usePrefersDark } from '../hooks';
+import { bandLevel, toBand } from '../logic/band';
 import { motiveBenefitIds } from '../logic/score';
-import { AccessibleBar, LayerLegend, SrTable, TickLabel, type ChartRow } from './charts';
+import { AccessibleBar, LayerLegend, LEVEL_TICKS, levelTickLabel, SrTable, TickLabel, type ChartRow } from './charts';
 
 interface Props {
   input: SimInput;
@@ -25,7 +26,8 @@ export default function BenefitChart({ input, scores, onSelect }: Props) {
         name: b.name,
         tagline: b.tagline,
         layer: b.layer,
-        score: scores.benefits[b.id],
+        band: toBand(scores.benefits[b.id]),
+        level: bandLevel(scores.benefits[b.id]),
         highlighted: anyMotive ? highlight.has(b.id) : undefined,
       })),
     [scores, anyMotive, highlight],
@@ -39,7 +41,13 @@ export default function BenefitChart({ input, scores, onSelect }: Props) {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={rows} layout="vertical" margin={{ top: 4, right: 32, bottom: 4, left: 4 }} barCategoryGap={4}>
             <CartesianGrid horizontal={false} strokeDasharray="3 3" stroke={dark ? '#374151' : '#e5e7eb'} />
-            <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11, fill: dark ? '#9ca3af' : '#6b7280' }} />
+            <XAxis
+              type="number"
+              domain={[0, 3]}
+              ticks={LEVEL_TICKS}
+              tickFormatter={levelTickLabel}
+              tick={{ fontSize: 12, fill: dark ? '#9ca3af' : '#6b7280' }}
+            />
             <YAxis
               type="category"
               dataKey="id"
@@ -57,14 +65,14 @@ export default function BenefitChart({ input, scores, onSelect }: Props) {
                 borderRadius: 6,
                 fontSize: 12,
               }}
-              formatter={(value: number) => [Math.round(value), ja.simulate.scoreLabel]}
+              formatter={(value: number) => [levelTickLabel(value), ja.simulate.scoreLabel]}
               labelFormatter={(id: string) => {
                 const r = rows.find((x) => x.id === id);
                 return r ? `${r.id} 【${r.tagline}】${r.name}` : id;
               }}
             />
             <Bar
-              dataKey="score"
+              dataKey="level"
               shape={<AccessibleBar />}
               isAnimationActive={false}
               onClick={(d: { id?: BenefitId }) => d?.id && onSelect?.(d.id)}

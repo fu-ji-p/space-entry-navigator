@@ -10,6 +10,7 @@ import Toggle from '../components/Toggle';
 import { Button, Disclaimer, Section } from '../components/ui';
 import { ja } from '../data/ja';
 import type { SimInput } from '../data/schema';
+import { toBand } from '../logic/band';
 import { evaluateInsights } from '../logic/insights';
 import { computeScores, DEFAULT_INPUT } from '../logic/score';
 import type { Route } from '../logic/urlState';
@@ -27,8 +28,12 @@ export default function Simulate({ input, setInput, navigate }: Props) {
   const [dialog, setDialog] = useState<ItemRef | null>(null);
   const closeDialog = useCallback(() => setDialog(null), []);
 
-  const dialogScore =
-    dialog?.kind === 'benefit' ? scores.benefits[dialog.id] : dialog?.kind === 'barrier' ? scores.barriers[dialog.id] : undefined;
+  const dialogBand =
+    dialog?.kind === 'benefit'
+      ? toBand(scores.benefits[dialog.id])
+      : dialog?.kind === 'barrier'
+        ? toBand(scores.barriers[dialog.id])
+        : undefined;
 
   const inputs = (
     <div className="space-y-6">
@@ -116,7 +121,7 @@ export default function Simulate({ input, setInput, navigate }: Props) {
         </div>
       </div>
 
-      <ItemDialog itemRef={dialog} score={dialogScore} onClose={closeDialog} onNavigate={setDialog} />
+      <ItemDialog itemRef={dialog} band={dialogBand} onClose={closeDialog} onNavigate={setDialog} />
     </div>
   );
 }

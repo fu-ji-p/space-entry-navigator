@@ -1,6 +1,8 @@
 import type { InsightRule } from './schema';
+import { atLeast } from '../logic/band';
 
 // 考察ルール。条件を満たしたものを優先度順に最大 MAX_INSIGHTS 件表示する。
+// 条件はスコアの段階（低・中・高）で書く。閾値は bands.ts にある。
 // 本文は論文の考察を平易に言い換えたもので、自由に編集してよい。
 export const MAX_INSIGHTS = 5;
 
@@ -8,7 +10,7 @@ export const INSIGHT_RULES: InsightRule[] = [
   {
     id: 'unknown-high',
     priority: 1,
-    when: (_i, s) => s.barriers.W3 >= 60,
+    when: (_i, s) => atLeast(s.barriers.W3, 'high'),
     title: '最大の壁は「腹落ち」かもしれません',
     body:
       '最大の壁は資金でも技術でもなく、「なぜ我が社が宇宙か」が腹落ちしないことになり得ます。この壁は資源を足しても下がりにくい性質を持ちます。宇宙に取り組む理由を社内の言葉で言えるかどうかが分かれ目になりやすいところです。',
@@ -16,7 +18,7 @@ export const INSIGHT_RULES: InsightRule[] = [
   {
     id: 'mission-driven',
     priority: 2,
-    when: (i, s) => i.motives.includes('mission') && s.barriers.W3 >= 40,
+    when: (i, s) => i.motives.includes('mission') && atLeast(s.barriers.W3, 'mid'),
     title: '使命感で決める参入は、撤退理由が見えにくくなります',
     body:
       '合理性より使命感で決めた参入は、撤退する理由が見えにくくなります。続ける力になる一方で、引き際の判断を難しくもします。それは強みにも弱みにもなり得ます。',
@@ -32,7 +34,7 @@ export const INSIGHT_RULES: InsightRule[] = [
   {
     id: 'scarcity',
     priority: 4,
-    when: (i, s) => !i.usePublicFunds && s.barriers['W1-1'] >= 60,
+    when: (i, s) => !i.usePublicFunds && atLeast(s.barriers['W1-1'], 'high'),
     title: '高いコストの壁の先には、競合が少ないかもしれません',
     body:
       'コストの壁が高いほど、その先にいる企業は少なくなります。越えたこと自体が「知られる」便益になり得ます。壁の高さは、裏返せば希少性です。',
@@ -48,7 +50,7 @@ export const INSIGHT_RULES: InsightRule[] = [
   {
     id: 'tech-growth',
     priority: 6,
-    when: (i, s) => s.barriers['W2-1'] >= 50 && (i.motives.includes('tech') || i.motives.includes('org')),
+    when: (i, s) => atLeast(s.barriers['W2-1'], 'mid') && (i.motives.includes('tech') || i.motives.includes('org')),
     title: '技術の壁に挑む過程で、独自性の高い能力が育ちます',
     body:
       '技術の壁に挑む過程で、他産業とは異なる側面の技術力・組織力が育ち得ます。挑む企業が少ないほど、優劣ではなく独自性の高い能力になりやすいところです。',

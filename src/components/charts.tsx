@@ -1,16 +1,24 @@
+import { BANDS, BAND_LEVEL } from '../data/bands';
 import { ja } from '../data/ja';
 import { LAYERS } from '../data/layers';
-import type { Layer } from '../data/schema';
+import type { Band, Layer } from '../data/schema';
 
 export interface ChartRow {
   id: string;
   name: string;
   tagline: string;
   layer: Layer;
-  score: number;
+  band: Band; // 表示用の段階
+  level: 1 | 2 | 3; // 棒の長さ（段階の序数）
   highlighted?: boolean;
   distinct?: boolean;
 }
+
+export const LEVEL_TICKS = BANDS.map((b) => BAND_LEVEL[b]);
+export const levelTickLabel = (level: number): string => {
+  const band = BANDS.find((b) => BAND_LEVEL[b] === level);
+  return band ? ja.bands[band] : '';
+};
 
 /** チャート直下に置く同内容の表（スクリーンリーダー用） */
 export function SrTable({ caption, rows }: { caption: string; rows: ChartRow[] }) {
@@ -34,7 +42,7 @@ export function SrTable({ caption, rows }: { caption: string; rows: ChartRow[] }
               {r.highlighted ? `（${ja.simulate.motiveMatch}）` : ''}
             </td>
             <td>{LAYERS[r.layer].label}</td>
-            <td>{Math.round(r.score)}</td>
+            <td>{ja.bands[r.band]}</td>
           </tr>
         ))}
       </tbody>
@@ -54,7 +62,7 @@ export function AccessibleBar(props: any) {
     payload: ChartRow;
   };
   const w = Math.max(0, width);
-  const label = ja.chart.ariaBenefit(payload.name, payload.tagline, Math.round(payload.score));
+  const label = ja.chart.ariaBar(payload.name, payload.tagline, ja.bands[payload.band]);
   return (
     <g>
       <rect

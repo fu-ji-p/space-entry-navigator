@@ -7,7 +7,7 @@ export const ja = {
     subtitle: 'Space Entry Navigator',
     disclaimer: '本ツールの結果は予測ではなく、検討の論点を整理するための地図です。',
     disclaimerLong:
-      '数値は相対的な目安であり、精度より「どこを考えるべきか」が伝わることを優先しています。類型に優劣はありません。',
+      '便益と障壁は「低・中・高」の 3 段階で示します。段階は順序を示す目安であり、数値的な根拠はありません。精度より「どこを考えるべきか」が伝わることを優先しています。類型に優劣はありません。',
   },
   nav: {
     home: 'ホーム',
@@ -74,9 +74,9 @@ export const ja = {
     spaceOnlyValue: '宇宙でしか実現できない価値があるか',
     spaceOnlyValueHint: '宇宙が目的ではなく手段になる課題を持っている',
     benefitChartTitle: '期待できる便益',
-    benefitChartHint: '目標類型での相対的な期待度（0〜100）。動機に合う項目を強調しています。',
+    benefitChartHint: '目標類型での相対的な期待度を 3 段階で示します。動機に合う項目を強調しています。',
     barrierChartTitle: '越えるべき障壁',
-    barrierChartHint: '目標類型での相対的な高さ（0〜100）。意思決定の障壁（W3）だけは性質が異なります。',
+    barrierChartHint: '目標類型での相対的な高さを 3 段階で示します。意思決定の障壁（W3）だけは性質が異なります。',
     barrierResourceNote: '資源で下げられる障壁',
     barrierDistinctNote: '性質が異なる障壁（資源では越えきれない）',
     insightsTitle: '考察',
@@ -86,7 +86,9 @@ export const ja = {
     closeInputs: '入力を閉じる',
     resetAll: '初期値に戻す',
     toReport: 'レポートにまとめる',
-    scoreLabel: 'スコア',
+    scoreLabel: '段階',
+    benefitBandLabel: '期待度',
+    barrierBandLabel: '高さ',
     gapLabel: '段数差',
   },
   explore: {
@@ -109,6 +111,7 @@ export const ja = {
     stageSection: '見立てた関与類型',
     inputSection: '自社の状況',
     topBenefits: '期待できる便益（上位 5 件）',
+    bandNote: '段階（低・中・高）は順序を示す目安で、数値的な根拠はありません。',
     barriers: '越えるべき障壁',
     insights: '考察',
     disclaimerSection: '免責',
@@ -134,6 +137,11 @@ export const ja = {
     loweredBy: '下げるスライダー',
     distinct: '資源では越えきれない、性質の異なる障壁',
     layerLabel: '層',
+  },
+  bands: {
+    low: '低',
+    mid: '中',
+    high: '高',
   },
   layers: {
     firm: '企業',
@@ -215,14 +223,13 @@ export const ja = {
     D5: '宇宙専業',
   },
   chart: {
-    ariaBenefit: (name: string, tagline: string, score: number) => `${name}（${tagline}）: ${score}`,
-    ariaBarrier: (name: string, tagline: string, score: number) => `${name}（${tagline}）: ${score}`,
-    tableCaptionBenefit: '便益スコア一覧',
-    tableCaptionBarrier: '障壁スコア一覧',
+    ariaBar: (name: string, tagline: string, band: string) => `${name}（${tagline}）: ${band}`,
+    tableCaptionBenefit: '便益の段階一覧',
+    tableCaptionBarrier: '障壁の段階一覧',
     colId: 'ID',
     colName: '項目',
     colLayer: '層',
-    colScore: 'スコア',
+    colScore: '段階',
   },
 } as const;
 

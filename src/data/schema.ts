@@ -16,6 +16,7 @@ export type Motive =
 export type SliderKey = 'capital' | 'patience' | 'techFit' | 'spaceKnow' | 'conviction';
 export type Level = 1 | 2 | 3 | 4 | 5;
 export type Relevance = 0 | 1 | 2 | 3;
+export type Band = 'low' | 'mid' | 'high'; // 表示用の 3 段階
 
 export type BenefitLayer = 'firm' | 'industry' | 'society';
 export type BarrierLayer = 'cost' | 'tech' | 'decision';

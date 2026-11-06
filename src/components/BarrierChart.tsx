@@ -5,7 +5,8 @@ import { ja } from '../data/ja';
 import { LAYERS } from '../data/layers';
 import type { BarrierId, SimScores } from '../data/schema';
 import { usePrefersDark } from '../hooks';
-import { AccessibleBar, SrTable, TickLabel, type ChartRow } from './charts';
+import { bandLevel, toBand } from '../logic/band';
+import { AccessibleBar, LEVEL_TICKS, levelTickLabel, SrTable, TickLabel, type ChartRow } from './charts';
 
 interface Props {
   scores: SimScores;
@@ -21,7 +22,8 @@ export default function BarrierChart({ scores, onSelect }: Props) {
         name: w.name,
         tagline: w.tagline,
         layer: w.layer,
-        score: scores.barriers[w.id],
+        band: toBand(scores.barriers[w.id]),
+        level: bandLevel(scores.barriers[w.id]),
         distinct: w.distinctNature,
       })),
     [scores],
@@ -49,7 +51,13 @@ export default function BarrierChart({ scores, onSelect }: Props) {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={rows} layout="vertical" margin={{ top: 4, right: 32, bottom: 4, left: 4 }} barCategoryGap={6}>
             <CartesianGrid horizontal={false} strokeDasharray="3 3" stroke={dark ? '#374151' : '#e5e7eb'} />
-            <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11, fill: dark ? '#9ca3af' : '#6b7280' }} />
+            <XAxis
+              type="number"
+              domain={[0, 3]}
+              ticks={LEVEL_TICKS}
+              tickFormatter={levelTickLabel}
+              tick={{ fontSize: 12, fill: dark ? '#9ca3af' : '#6b7280' }}
+            />
             <YAxis
               type="category"
               dataKey="id"
@@ -67,14 +75,14 @@ export default function BarrierChart({ scores, onSelect }: Props) {
                 borderRadius: 6,
                 fontSize: 12,
               }}
-              formatter={(value: number) => [Math.round(value), ja.simulate.scoreLabel]}
+              formatter={(value: number) => [levelTickLabel(value), ja.simulate.scoreLabel]}
               labelFormatter={(id: string) => {
                 const r = rows.find((x) => x.id === id);
                 return r ? `${r.id} 【${r.tagline}】${r.name}` : id;
               }}
             />
             <Bar
-              dataKey="score"
+              dataKey="level"
               shape={<AccessibleBar />}
               isAnimationActive={false}
               onClick={(d: { id?: BarrierId }) => d?.id && onSelect?.(d.id)}

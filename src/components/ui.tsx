@@ -70,7 +70,7 @@ export function Disclaimer({ long = false }: { long?: boolean }) {
       className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950/40 dark:text-amber-100"
     >
       <p className="font-medium">本ツールの結果は予測ではなく、検討の論点を整理するための地図です。</p>
-      {long && <p className="mt-1 text-xs">数値は相対的な目安であり、精度より「どこを考えるべきか」が伝わることを優先しています。類型に優劣はありません。</p>}
+      {long && <p className="mt-1 text-xs">便益と障壁は「低・中・高」の 3 段階で示します。段階は順序を示す目安であり、数値的な根拠はありません。類型に優劣はありません。</p>}
     </div>
   );
 }

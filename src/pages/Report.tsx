@@ -8,6 +8,7 @@ import { ja, SLIDER_KEYS } from '../data/ja';
 import type { SimInput } from '../data/schema';
 import { STAGE_BY_ID } from '../data/types';
 import { useFlash } from '../hooks';
+import { toBand } from '../logic/band';
 import { evaluateInsights } from '../logic/insights';
 import { barriersDesc, buildMarkdown, formatDateTime, topBenefits } from '../logic/report';
 import { computeScores, motiveBenefitIds } from '../logic/score';
@@ -144,7 +145,7 @@ export default function Report({ input }: Props) {
                     <td className="py-1 pr-2">
                       <LayerBadge layer={b.layer} />
                     </td>
-                    <td className="py-1 text-right tabular-nums">{Math.round(score)}</td>
+                    <td className="py-1 text-right">{ja.bands[toBand(score)]}</td>
                   </tr>
                 );
               })}
@@ -177,13 +178,15 @@ export default function Report({ input }: Props) {
                     <td className="py-1 pr-2">
                       <LayerBadge layer={w.layer} />
                     </td>
-                    <td className="py-1 text-right tabular-nums">{Math.round(score)}</td>
+                    <td className="py-1 text-right">{ja.bands[toBand(score)]}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </section>
+
+        <p className="text-xs text-gray-600 dark:text-gray-400">{r.bandNote}</p>
 
         <section>
           <h3 className="font-bold border-b border-gray-200 dark:border-gray-700 pb-1 mb-2">{r.insights}</h3>
