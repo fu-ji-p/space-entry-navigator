@@ -2,6 +2,8 @@
 
 異分野企業が宇宙産業への参画を検討する際に、自社の「関与類型（D-〜D5）」を見立て、期待できる「便益（B1〜B3、16 項目）」と越えるべき「障壁（W1〜W3、5 項目）」を可視化し、検討メモとして持ち帰れる単一ページ Web アプリです。
 
+公開版: https://fu-ji-p.github.io/space-entry-navigator/
+
 本ツールの結果は予測ではなく、検討の論点を整理するための地図です。設計の詳細は [docs/SPEC.md](docs/SPEC.md)、実装時の判断は [docs/DECISIONS.md](docs/DECISIONS.md) を参照してください。
 
 ## 技術スタック
