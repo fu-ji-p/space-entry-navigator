@@ -56,7 +56,7 @@ export default function Explore({ stageFilter, setStageFilter }: Props) {
             </option>
           ))}
         </select>
-        {stageFilter && <span className="text-xs text-gray-600 dark:text-gray-400">{ja.explore.highlighted}を強調しています</span>}
+        {stageFilter && <span className="text-xs text-gray-600 dark:text-gray-400">{ja.explore.highlighted}</span>}
       </div>
 
       <Section title={ja.explore.stagesTitle}>
@@ -79,11 +79,6 @@ export default function Explore({ stageFilter, setStageFilter }: Props) {
             />
           ))}
         </div>
-        {stageFilter && (
-          <p className="text-xs text-gray-600 dark:text-gray-400">
-            {ja.explore.relevanceLabel}（0〜3）が {STRONG} 以上の項目を強調しています。
-          </p>
-        )}
       </Section>
 
       <Section title={ja.explore.barriersTitle}>
@@ -98,11 +93,6 @@ export default function Explore({ stageFilter, setStageFilter }: Props) {
             />
           ))}
         </div>
-        {stageFilter && (
-          <p className="text-xs text-gray-600 dark:text-gray-400">
-            {ja.explore.baseLabel}（0〜3）が {STRONG} 以上の項目を強調しています。
-          </p>
-        )}
       </Section>
 
       <Section title={ja.explore.pairsTitle} hint={ja.explore.pairsLead}>

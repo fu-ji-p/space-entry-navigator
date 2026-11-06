@@ -94,7 +94,7 @@ export default function RatingList({ kind, rows, onSelect }: Props) {
 export function LayerLegend({ layers, note }: { layers: Layer[]; note?: string }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
-      <ul className="flex flex-wrap gap-x-3 gap-y-1" aria-label="凡例">
+      <ul className="flex flex-wrap gap-x-3 gap-y-1" aria-label={ja.a11y.legend}>
         {layers.map((l) => (
           <li key={l} className="flex items-center gap-1">
             <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: LAYERS[l].color }} aria-hidden="true" />

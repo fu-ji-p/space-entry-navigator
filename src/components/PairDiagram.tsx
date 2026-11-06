@@ -51,10 +51,10 @@ export default function PairDiagram({ highlightBenefits, highlightBarriers, onOp
               <div className="flex flex-wrap gap-1">{p.barriers.map((id) => chip(id, 'barrier'))}</div>
             </div>
             <div className="text-center text-gray-500 dark:text-gray-400 text-sm font-medium px-2" aria-hidden="true">
-              表 ⇔ 裏
+              {ja.explore.pairFront} ⇔ {ja.explore.pairBack}
             </div>
             <div>
-              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">裏側の{ja.explore.benefitsTitle}</div>
+              <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{ja.explore.pairBackBenefits}</div>
               <div className="flex flex-wrap gap-1">{p.benefits.map((id) => chip(id, 'benefit'))}</div>
             </div>
           </div>

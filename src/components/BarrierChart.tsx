@@ -29,7 +29,7 @@ export default function BarrierChart({ scores, onSelect }: Props) {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
-        <ul className="flex flex-wrap gap-x-4 gap-y-1" aria-label="凡例">
+        <ul className="flex flex-wrap gap-x-4 gap-y-1" aria-label={ja.a11y.legend}>
           <li className="flex items-center gap-1">
             <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: LAYERS.cost.color }} aria-hidden="true" />
             <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: LAYERS.tech.color }} aria-hidden="true" />

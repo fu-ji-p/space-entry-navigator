@@ -98,9 +98,7 @@ export default function Simulate({ input, setInput, navigate }: Props) {
             aria-controls="sim-inputs"
             className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-3 py-2 text-sm font-medium text-left flex justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
-            <span>
-              {ja.simulate.inputsTitle}（{input.current} → {input.target}）
-            </span>
+            <span>{ja.simulate.inputsSummary(input.current, input.target)}</span>
             <span aria-hidden="true">{inputsOpen ? '−' : '+'}</span>
           </button>
         </div>

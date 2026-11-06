@@ -4,7 +4,7 @@ import { BENEFIT_BY_ID } from '../data/benefits';
 import { ja } from '../data/ja';
 import type { Band, BarrierId, BenefitId, FrameworkItem, StageDef, StageId } from '../data/schema';
 import { STAGE_BY_ID } from '../data/types';
-import { Button, LayerBadge } from './ui';
+import { LayerBadge } from './ui';
 
 export type ItemRef = { kind: 'stage'; id: StageId } | { kind: 'benefit'; id: BenefitId } | { kind: 'barrier'; id: BarrierId };
 
@@ -153,8 +153,8 @@ export function ItemDialog({
         aria-labelledby="item-dialog-title"
         className="relative w-full sm:max-w-lg max-h-[85vh] overflow-y-auto rounded-t-xl sm:rounded-xl bg-white dark:bg-gray-900 shadow-xl p-4"
       >
-        <div className="flex items-center justify-between mb-2">
-          <h2 id="item-dialog-title" className="text-sm font-medium text-gray-600 dark:text-gray-400">
+        <div className="flex items-center justify-end mb-2">
+          <h2 id="item-dialog-title" className="sr-only">
             {item.id} {item.name}
           </h2>
           <button
@@ -167,11 +167,6 @@ export function ItemDialog({
           </button>
         </div>
         <ItemCard item={item} band={band} onRelated={onNavigate} />
-        <div className="mt-3 text-right">
-          <Button variant="secondary" onClick={onClose}>
-            {ja.card.close}
-          </Button>
-        </div>
       </div>
     </div>
   );

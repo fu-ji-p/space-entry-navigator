@@ -39,7 +39,7 @@ export default function Home({ navigate }: Props) {
       {/* 3 軸の概念図 */}
       <section aria-labelledby="axes-title" className="space-y-3">
         <h2 id="axes-title" className="text-lg font-bold">
-          3 つの軸
+          {ja.home.axesTitle}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="rounded-lg border border-gray-200 dark:border-gray-800 p-3">
@@ -80,7 +80,7 @@ export default function Home({ navigate }: Props) {
                 <div className="flex items-center gap-1 text-xs font-medium">
                   <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: LAYERS[l].color }} aria-hidden="true" />
                   {LAYERS[l].label}
-                  {l === 'decision' && <span className="text-[10px] text-red-700 dark:text-red-300">（性質が異なる）</span>}
+                  {l === 'decision' && <span className="text-[10px] text-red-700 dark:text-red-300">{ja.home.distinctShort}</span>}
                 </div>
                 <ul className="flex flex-wrap gap-1 mt-0.5">
                   {BARRIERS.filter((w) => w.layer === l).map((w) => (
